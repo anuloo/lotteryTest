@@ -42,7 +42,7 @@ Welcome to the **Lottery Draws App**! This project is a test for a company utili
 
 1. **Clone the Repository**:
     ```sh
-    git clone https://github.com/your-username/lottery-draws-app.git
+    git clone https://github.com/anuloo/lottery-draws-app.git
     ```
 2. **Open in Android Studio**: Open the project in Android Studio to start exploring the code.
 3. **Build and Run**: Build the project and run it on an emulator or physical device to see it in action.
