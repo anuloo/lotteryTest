@@ -20,7 +20,7 @@ fun LotteryApp() {
             startDestination = "lotteryList",
             Modifier.padding(paddingValues)
         ) {
-            composable("lotteryList") { LotteryListScreen(navController) }
+            composable("lotteryList") { LotteryListScreen() }
             composable("checkDraw") { CheckDrawScreen(navController) }
         }
     }
