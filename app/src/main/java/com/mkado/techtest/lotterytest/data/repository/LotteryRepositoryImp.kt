@@ -23,8 +23,16 @@ class LotteryRepositoryImp @Inject constructor(
 
     }
 
+    override fun getLotteryById(lotteryId: String): Flow<Lottery?> {
+        return dao.getLotteryById(lotteryId).map { it?.toDomain() }
+    }
+
     override suspend fun refreshLotteryData() {
         val data = service.fetchLotteryData()
         dao.insertLotteries(data.map { it.toEntity() })
+    }
+
+    override fun generateRandomNumbers(): List<Int> {
+        return (1..50).shuffled().take(7)
     }
 }

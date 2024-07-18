@@ -8,7 +8,11 @@ import com.mkado.techtest.lotterytest.data.remote.api.LotteryApi
 import com.mkado.techtest.lotterytest.data.repository.LotteryRepositoryImp
 import com.mkado.techtest.lotterytest.data.service.LotteryService
 import com.mkado.techtest.lotterytest.domain.repository.LotteryRepository
+import com.mkado.techtest.lotterytest.domain.uscase.DrawUseCase
+import com.mkado.techtest.lotterytest.domain.uscase.GenerateDrawUseCase
+import com.mkado.techtest.lotterytest.domain.uscase.GetLotteryByIdUseCase
 import com.mkado.techtest.lotterytest.domain.uscase.GetLotteryDataUseCase
+import com.mkado.techtest.lotterytest.domain.uscase.LotteryByIdUseCase
 import com.mkado.techtest.lotterytest.domain.uscase.LotteryUsecase
 import dagger.Module
 import dagger.Provides
@@ -76,6 +80,18 @@ object NetworkModule {
     @Singleton
     fun provideLotteryUseCase(repository: LotteryRepository): LotteryUsecase {
         return GetLotteryDataUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetLotteryByIdUseCase(repository: LotteryRepository): LotteryByIdUseCase {
+        return GetLotteryByIdUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGenerateDrawUseCase(repository: LotteryRepository): DrawUseCase {
+        return GenerateDrawUseCase(repository)
     }
 
 }

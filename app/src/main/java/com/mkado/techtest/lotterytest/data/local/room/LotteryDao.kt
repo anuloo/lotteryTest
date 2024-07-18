@@ -11,6 +11,9 @@ interface LotteryDao {
     @Query("SELECT * FROM lottery_data")
     fun getLotteries(): Flow<List<LotteryEntity>>
 
+    @Query("SELECT * FROM lottery_data WHERE id = :lotteryId")
+    fun getLotteryById(lotteryId: String): Flow<LotteryEntity?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLotteries(lotteries: List<LotteryEntity>)
 }

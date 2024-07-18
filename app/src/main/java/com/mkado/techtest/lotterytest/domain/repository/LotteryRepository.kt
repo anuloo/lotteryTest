@@ -5,5 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface LotteryRepository {
     fun getLotteryData(): Flow<List<Lottery>>
+    fun getLotteryById(lotteryId: String): Flow<Lottery?>
     suspend fun refreshLotteryData()
+    fun generateRandomNumbers(): List<Int>
 }

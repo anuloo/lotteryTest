@@ -15,13 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mkado.techtest.lotterytest.domain.model.Lottery
 import com.mkado.techtest.lotterytest.ui.view.component.LotteryItem
 import com.mkado.techtest.lotterytest.ui.view.viewmodel.LotteryViewModel
 
 @Composable
-fun LotteryListScreen(viewModel: LotteryViewModel = hiltViewModel()) {
-    val state by viewModel.state.collectAsState()
-
+fun LotteryListScreen(
+    lotteryData: List<Lottery>,
+    onLotteryClicked: (String) -> Unit,
+    onRefreshClicked: () -> Unit
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             // Title at the top
@@ -36,29 +39,20 @@ fun LotteryListScreen(viewModel: LotteryViewModel = hiltViewModel()) {
 
             // Main content
             Box(modifier = Modifier.weight(1f)) {
-                when (state) {
-                    is LotteryUIState.Loading -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator(modifier = Modifier.size(64.dp))
-                        }
+                if (lotteryData.isEmpty()) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.size(64.dp))
                     }
-                    is LotteryUIState.Loaded -> {
-                        val lotteryData = (state as LotteryUIState.Loaded).lotteryData
-                        LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            items(lotteryData) { lottery ->
-                                LotteryItem(lottery = lottery)
-                            }
-                        }
-                    }
-                    is LotteryUIState.Error -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = (state as LotteryUIState.Error).message)
+                } else {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(lotteryData) { lottery ->
+                            LotteryItem(
+                                lottery = lottery,
+                                onClick = { onLotteryClicked(lottery.id) }
+                            )
                         }
                     }
                 }
@@ -73,12 +67,13 @@ fun LotteryListScreen(viewModel: LotteryViewModel = hiltViewModel()) {
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Button(onClick = { viewModel.refreshData() }) {
+                Button(onClick = onRefreshClicked) {
                     Text("Refresh Lottery")
                 }
             }
         }
     }
 }
+
 
 
