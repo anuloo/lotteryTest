@@ -1,0 +1,77 @@
+package com.mkado.techtest.lotterytest.domain.usecase
+
+import com.mkado.techtest.lotterytest.domain.uscase.GetLotteryDataUseCase
+import com.mkado.techtest.lotterytest.domain.uscase.LotteryUsecase
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
+import com.mkado.techtest.lotterytest.domain.model.Lottery
+import com.mkado.techtest.lotterytest.domain.repository.LotteryRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Before
+import org.junit.Test
+
+@OptIn(ExperimentalCoroutinesApi::class)
+class GetLotteryDataUseCaseTest {
+
+    private val lotteryRepository: LotteryRepository = mockk(relaxed = true)
+    private lateinit var sut: LotteryUsecase
+
+    @Before
+    fun setUp() {
+        sut = GetLotteryDataUseCase(lotteryRepository)
+    }
+
+    @Test
+    fun testInvokeReturnsDataFromRepository() = runTest {
+        val lotteryData = listOf(
+            Lottery(
+                id = "draw-88",
+                drawDate = "2024-05-15",
+                number1 = "10",
+                number2 = "23",
+                number3 = "36",
+                number4 = "47",
+                number5 = "21",
+                number6 = "52",
+                bonusBall = "39",
+                topPrize = 7000000
+            )
+        )
+
+        every { lotteryRepository.getLotteryData() }.returns(flowOf(lotteryData))
+
+        val result = sut.invoke().first()
+
+        assert(result == lotteryData)
+    }
+
+    @Test
+    fun testRefreshFetchesAndReturnsDataFromRepository() = runTest {
+        val lotteryData = listOf(
+            Lottery(
+                id = "draw-88",
+                drawDate = "2024-05-15",
+                number1 = "10",
+                number2 = "23",
+                number3 = "36",
+                number4 = "47",
+                number5 = "21",
+                number6 = "52",
+                bonusBall = "39",
+                topPrize = 7000000
+            )
+        )
+
+        coEvery { lotteryRepository.refreshLotteryData() }.returns(Unit)
+        every {lotteryRepository.getLotteryData()  }returns (flowOf(lotteryData))
+
+        val result = sut.refresh()
+
+        assert(result == lotteryData)
+    }
+}
