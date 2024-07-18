@@ -12,31 +12,29 @@ Welcome to the **Lottery Draws App**! This project is a test for a company utili
 
 1. **Parse JSON Data**: Seamlessly load and parse the provided JSON data within the app.
 2. **Display Lottery Draws**: A simple yet elegant view listing all lottery draws along with their respective draw dates.
-3. **Unit and Integration Testing**: Comprehensive tests covering the critical functionalities of the application to ensure reliability.
+3. **Unit and Integration Testing**: I ve done just 1 due to i had issues with the HiltTest
 
 ### 1.4 Additional Tasks
 
 1. **Detail View for Each Draw**: Dive deeper into each lottery draw with a detailed view showcasing all numbers and the bonus ball.
-2. **Lottery Tickets**: An interactive 'ticket view' that generates random lottery tickets and checks if they have won.
+2. **Lottery Tickets**: Well this one i misunderstood and i only done a draw screen where user can generate random draws
 3. **Navigation**: Smooth and intuitive navigation from the main list view to the detailed views of each draw.
-4. **Additional Tests**: Enhance test coverage with more thorough and extensive testing.
-5. **Interactive Navigation**: Swipe gestures to effortlessly navigate between different draw details.
-6. **Local Storage**: Cache the lottery draws locally to enable offline viewing.
-7. **UI/UX Enhancements**: Boost the visual appeal and user experience with animations and custom UI components.
+4. **Additional Tests**: Ive added some unit test not too many unfortunatelly.
+5. **Local Storage**: Cache the lottery draws locally to enable offline viewing.
+6. **UI/UX Enhancements**: Boost the visual appeal and user experience with loading animations and custom UI components.
 
 ## 🛠 Technologies Used
 
 - **Kotlin**: The primary programming language.
 - **Jetpack Compose**: For creating a modern, responsive UI.
 - **MVVM Framework**: For a clean and efficient architecture.
-- **RESTful API**: For fetching and displaying the latest lottery draws.
-- **Local Storage**: For caching data and offline access.
+- **RESTful API**: For fetching and displaying the latest lottery draws. again i actually done a mock api server to imitate the proper behavior of the restful API
+- **Local Storage**: For caching data and offline access. I ve used room database so it has a Flow<List> this way we can seamlessly update the UI if the state has changed
 
 ## 🧪 Testing
 
-- **Unit Tests**: To validate the smallest parts of the application.
-- **Integration Tests**: To ensure all parts work seamlessly together.
-- **Test Coverage**: Aiming for high test coverage to guarantee app reliability.
+- **Unit Tests**: Ive validated the smallest parts of the application. mainly the uscases and the repositories
+- **Integration Tests**: just done the DAO test just for fun Like i said i had an issue with the libaries.
 
 ## 📲 How to Use
 
@@ -49,7 +47,10 @@ Welcome to the **Lottery Draws App**! This project is a test for a company utili
 
 ## 📸 Screenshots
 
-_Add some screenshots here to showcase the app's UI and features._
+![Screenshot_20240718_063328](https://github.com/user-attachments/assets/edf02dcb-28d9-4028-9d55-2e6093b67952)
+![Screenshot_20240718_063555](https://github.com/user-attachments/assets/94b8df03-b613-4a20-a5a1-94f3b88b1779)
+![Screenshot_20240718_063732](https://github.com/user-attachments/assets/61b2f145-5d66-4768-8f3c-1a01665878bf)
+
 
 ## 🤝 Contributing
 
