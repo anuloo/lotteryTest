@@ -17,7 +17,7 @@ Welcome to the **Lottery Draws App**! This project is a test for a company utili
 ### 1.4 Additional Tasks
 
 1. **Detail View for Each Draw**: Dive deeper into each lottery draw with a detailed view showcasing all numbers and the bonus ball.
-2. **Lottery Tickets**: Well this one i misunderstood and i only done a draw screen where user can generate random draws
+2. **Lottery Tickets**: This is added just later stage see screenshot
 3. **Navigation**: Smooth and intuitive navigation from the main list view to the detailed views of each draw.
 4. **Additional Tests**: Ive added some unit test not too many unfortunatelly.
 5. **Local Storage**: Cache the lottery draws locally to enable offline viewing.
@@ -49,7 +49,8 @@ Welcome to the **Lottery Draws App**! This project is a test for a company utili
 
 ![Screenshot_20240718_063328](https://github.com/user-attachments/assets/edf02dcb-28d9-4028-9d55-2e6093b67952)
 ![Screenshot_20240718_063555](https://github.com/user-attachments/assets/94b8df03-b613-4a20-a5a1-94f3b88b1779)
-![Screenshot_20240718_063732](https://github.com/user-attachments/assets/61b2f145-5d66-4768-8f3c-1a01665878bf)
+![Screenshot_20240719_025737](https://github.com/user-attachments/assets/767c5d2a-5191-4719-b23f-6307371b4369)
+
 
 
 ## 🤝 Contributing
