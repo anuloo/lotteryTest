@@ -16,7 +16,7 @@ import com.mkado.techtest.lotterytest.ui.theme.Orange
 import com.mkado.techtest.lotterytest.ui.theme.Purple40
 
 @Composable
-fun LotteryItemWithBalls(lottery: Lottery) {
+fun LotteryItemWithBalls(lottery: Lottery?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -24,19 +24,19 @@ fun LotteryItemWithBalls(lottery: Lottery) {
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Column {
-            Text(text = "ID: ${lottery.id}")
+            Text(text = "ID: ${lottery?.id}")
             Row {
-                Text(text = "Top Prize: ${lottery.topPrize}", modifier = Modifier.weight(1f))
-                Text(text = "Draw Date: ${lottery.drawDate}")
+                Text(text = "Top Prize: ${lottery?.topPrize}", modifier = Modifier.weight(1f))
+                Text(text = "Draw Date: ${lottery?.drawDate}")
             }
             Row(modifier = Modifier.padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically){
-                BallItem(ballNumber = lottery.number1, ballColor = Color.Blue, size = 40f)
-                BallItem(ballNumber = lottery.number2, ballColor = Orange, size = 40f)
-                BallItem(ballNumber = lottery.number3, ballColor = DarkYellow, size = 40f)
-                BallItem(ballNumber = lottery.number4, ballColor = Color.Green, size = 40f)
-                BallItem(ballNumber = lottery.number5, ballColor = Purple40, size = 40f)
-                BallItem(ballNumber = lottery.number6, ballColor = Green, size = 40f)
-                BallItem(ballNumber = lottery.bonusBall, ballColor = Color.Red, size = 52f)
+                BallItem(ballNumber = lottery?.number1, ballColor = Color.Blue, size = 40f)
+                BallItem(ballNumber = lottery?.number2, ballColor = Orange, size = 40f)
+                BallItem(ballNumber = lottery?.number3, ballColor = DarkYellow, size = 40f)
+                BallItem(ballNumber = lottery?.number4, ballColor = Color.Green, size = 40f)
+                BallItem(ballNumber = lottery?.number5, ballColor = Purple40, size = 40f)
+                BallItem(ballNumber = lottery?.number6, ballColor = Green, size = 40f)
+                BallItem(ballNumber = lottery?.bonusBall, ballColor = Color.Red, size = 52f)
             }
         }
     }

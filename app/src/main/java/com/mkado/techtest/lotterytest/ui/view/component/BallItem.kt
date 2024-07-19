@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun BallItem(ballNumber: String, ballColor: Color, size: Float) {
+fun BallItem(ballNumber: String?, ballColor: Color, size: Float) {
     Box(
         modifier = Modifier.padding(horizontal = 5.dp)
             .size(size.dp),
@@ -33,7 +33,7 @@ fun BallItem(ballNumber: String, ballColor: Color, size: Float) {
 
         )
         Text(
-            text = ballNumber,
+            text = ballNumber.toString(),
             style = TextStyle(
                 color = Color.White,
                 fontSize = (size / 2).sp, // Adjust text size based on ball size

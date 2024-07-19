@@ -15,8 +15,6 @@ import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.mkado.techtest.lotterytest.ui.view.component.LotteryItemWithBalls
-import com.mkado.techtest.lotterytest.domain.model.Lottery
 import com.mkado.techtest.lotterytest.ui.view.component.TicketView
 
 @Composable

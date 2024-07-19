@@ -19,7 +19,7 @@ import com.mkado.techtest.lotterytest.ui.view.component.LotteryItemWithBalls
 
 @Composable
 fun LotteryDetailScreen(
-    lottery: Lottery,
+    lottery: Lottery?,
     onBackClicked:()->Unit
 ) {
     Column(
