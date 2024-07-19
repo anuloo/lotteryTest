@@ -90,6 +90,8 @@ dependencies {
     implementation(libs.ktor.client.serialization.kotlinx.json)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)
+    implementation(libs.zxing.core)
+    implementation(libs.zxing.android.embedded)
 
     // Testing dependencies
     testImplementation(libs.junit)

@@ -1,11 +1,15 @@
 package com.mkado.techtest.lotterytest.ui.view
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
@@ -41,6 +45,22 @@ fun LotteryApp() {
                 )
             }
             composable("checkDraw") {
+                val checkDrawViewModel: CheckDrawViewModel = hiltViewModel()
+                val checkDrawState by checkDrawViewModel.state.collectAsState()
+                val qrCodeBitmap by checkDrawViewModel.qrCodeBitmap.collectAsState()
+
+                if (checkDrawState is CheckDrawUIState.Loading) {
+                    checkDrawViewModel.generateNumbers()
+                }
+
+                CheckDrawScreen(
+                    state = checkDrawState,
+                    qrCodeBitmap = qrCodeBitmap,
+                    onClick = { checkDrawViewModel.generateNumbers() },
+                    onBackClick = { navController.navigate("lotteryList") }
+                )
+            }
+            /*composable("checkDraw") {
                 val viewModelDraw: CheckDrawViewModel = hiltViewModel()
                 val stateDraw by viewModelDraw.state.collectAsState()
                 LaunchedEffect(Unit) {
@@ -50,7 +70,7 @@ fun LotteryApp() {
                     onClick = {viewModelDraw.generateNumbers()},
                     onBackClick = { navController.navigate("lotteryList")
             })
-            }
+            }*/
             composable(
                 "lotteryDetail/{lotteryId}",
                 arguments = listOf(navArgument("lotteryId") { type = NavType.StringType })

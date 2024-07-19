@@ -1,8 +1,11 @@
 package com.mkado.techtest.lotterytest.ui.view.viewmodel
 
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mkado.techtest.lotterytest.domain.uscase.DrawUseCase
+import com.mkado.techtest.lotterytest.domain.uscase.GenerateQRCodeUseCase
+import com.mkado.techtest.lotterytest.domain.uscase.QRCodeUseCase
 import com.mkado.techtest.lotterytest.ui.view.CheckDrawUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -13,11 +16,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CheckDrawViewModel @Inject constructor(
-    private val generateDrawUseCase: DrawUseCase
+    private val generateDrawUseCase: DrawUseCase,
+    private val generateQRCodeUseCase: QRCodeUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<CheckDrawUIState>(CheckDrawUIState.Loaded(emptyList()))
     val state: StateFlow<CheckDrawUIState> = _state
+
+    private var _qrCodeBitmap = MutableStateFlow<Bitmap?>(null)
+    val qrCodeBitmap: StateFlow<Bitmap?> = _qrCodeBitmap
 
     fun generateNumbers() {
         viewModelScope.launch {
@@ -26,6 +33,7 @@ class CheckDrawViewModel @Inject constructor(
             try {
                 val numbers = generateDrawUseCase.execute()
                 _state.value = CheckDrawUIState.Loaded(numbers)
+                _qrCodeBitmap.value = generateQRCodeUseCase.execute(numbers.joinToString(","))
             } catch (e: Exception) {
                 _state.value = CheckDrawUIState.Error("Failed to generate numbers")
             }

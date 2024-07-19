@@ -1,9 +1,13 @@
 package com.mkado.techtest.lotterytest.data.repository
 
+import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.qrcode.QRCodeWriter
 import com.mkado.techtest.lotterytest.data.local.room.LotteryDao
 import com.mkado.techtest.lotterytest.data.mappers.toDomain
 import com.mkado.techtest.lotterytest.data.mappers.toEntity
-import com.mkado.techtest.lotterytest.data.remote.api.LotteryApi
 import com.mkado.techtest.lotterytest.data.service.LotteryService
 import com.mkado.techtest.lotterytest.domain.model.Lottery
 import com.mkado.techtest.lotterytest.domain.repository.LotteryRepository
@@ -34,5 +38,22 @@ class LotteryRepositoryImp @Inject constructor(
 
     override fun generateRandomNumbers(): List<Int> {
         return (1..50).shuffled().take(7)
+    }
+
+    override fun generateQRCodeBitmap(data:String): Bitmap? {
+        return try {
+            val size = 256 // QR code image size
+            val bits = QRCodeWriter().encode(data, BarcodeFormat.QR_CODE, size, size)
+            val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565)
+            for (x in 0 until size) {
+                for (y in 0 until size) {
+                    bitmap.setPixel(x, y, if (bits[x, y]) Color.Black.toArgb() else Color.White.toArgb())
+                }
+            }
+            bitmap
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 }

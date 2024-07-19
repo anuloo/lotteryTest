@@ -10,10 +10,12 @@ import com.mkado.techtest.lotterytest.data.service.LotteryService
 import com.mkado.techtest.lotterytest.domain.repository.LotteryRepository
 import com.mkado.techtest.lotterytest.domain.uscase.DrawUseCase
 import com.mkado.techtest.lotterytest.domain.uscase.GenerateDrawUseCase
+import com.mkado.techtest.lotterytest.domain.uscase.GenerateQRCodeUseCase
 import com.mkado.techtest.lotterytest.domain.uscase.GetLotteryByIdUseCase
 import com.mkado.techtest.lotterytest.domain.uscase.GetLotteryDataUseCase
 import com.mkado.techtest.lotterytest.domain.uscase.LotteryByIdUseCase
 import com.mkado.techtest.lotterytest.domain.uscase.LotteryUsecase
+import com.mkado.techtest.lotterytest.domain.uscase.QRCodeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -92,6 +94,12 @@ object NetworkModule {
     @Singleton
     fun provideGenerateDrawUseCase(repository: LotteryRepository): DrawUseCase {
         return GenerateDrawUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGenerateQRCodeUseCase(repository: LotteryRepository): QRCodeUseCase {
+        return GenerateQRCodeUseCase(repository)
     }
 
 }

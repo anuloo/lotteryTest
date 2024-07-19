@@ -13,6 +13,8 @@ hilt-compose-nav = "1.2.0"
 kotlinJSONSerialisation = "1.5.1"
 ktor = "2.3.3"
 room = "2.6.1"
+qrgenCoreVersion = "3.4.1"
+qrgenEmbededVersion = "4.2.0"
 
 #testing
 truth = "1.1.3"
@@ -50,6 +52,10 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
 coroutines-core = {group="org.jetbrains.kotlinx", name="kotlinx-coroutines-core", version.ref="coroutinesVersion"}
+
+#zing qr
+zxing-core = {group="com.google.zxing", name="core", version.ref="qrgenCoreVersion"}
+zxing-android-embedded = {group="com.journeyapps", name="zxing-android-embedded", version.ref="qrgenEmbededVersion"}
 
 
 #testing

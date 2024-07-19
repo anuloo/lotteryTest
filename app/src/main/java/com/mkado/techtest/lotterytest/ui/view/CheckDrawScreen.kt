@@ -1,5 +1,6 @@
 package com.mkado.techtest.lotterytest.ui.view
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,10 +17,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mkado.techtest.lotterytest.ui.view.component.LotteryItemWithBalls
 import com.mkado.techtest.lotterytest.domain.model.Lottery
+import com.mkado.techtest.lotterytest.ui.view.component.TicketView
 
 @Composable
 fun CheckDrawScreen(
-    state:CheckDrawUIState,
+    state: CheckDrawUIState,
+    qrCodeBitmap: Bitmap?,
     onClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -44,19 +47,12 @@ fun CheckDrawScreen(
                 is CheckDrawUIState.Loaded -> {
                     val numbers = (state as CheckDrawUIState.Loaded).numbers
                     if (numbers.size >= 7) {
-                        LotteryItemWithBalls(
-                            lottery = Lottery(
-                                id = "generated-draw",
-                                drawDate = "2024-07-18",
-                                number1 = numbers[0].toString(),
-                                number2 = numbers[1].toString(),
-                                number3 = numbers[2].toString(),
-                                number4 = numbers[3].toString(),
-                                number5 = numbers[4].toString(),
-                                number6 = numbers[5].toString(),
-                                bonusBall = numbers[6].toString(),
-                                topPrize = 0 // This is just an example
-                            )
+                        TicketView(
+                            title = "LOTTO",
+                            drawDate = "2024-07-18",
+                            drawId = "draw-123",
+                            numbers = numbers,
+                            qrCodeBitmap = qrCodeBitmap
                         )
                     } else {
                         Text("Not enough numbers generated")
@@ -92,6 +88,7 @@ fun CheckDrawScreenPreview() {
         state = CheckDrawUIState.Loaded(
             listOf(1,2,3,4,5,6,66)
         ),
+        qrCodeBitmap = null,
         onClick = {},
         {}
     )
