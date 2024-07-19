@@ -37,7 +37,7 @@ class LotteryRepositoryImp @Inject constructor(
     }
 
     override fun generateRandomNumbers(): List<Int> {
-        return (1..50).shuffled().take(7)
+        return (1..50).shuffled().take(6)
     }
 
     override fun generateQRCodeBitmap(data:String): Bitmap? {

@@ -44,7 +44,7 @@ fun CheckDrawScreen(
 
                 is CheckDrawUIState.Loaded -> {
                     val numbers = (state as CheckDrawUIState.Loaded).numbers
-                    if (numbers.size >= 7) {
+                    if (numbers.size >= 6) {
                         TicketView(
                             title = "LOTTO",
                             drawDate = "2024-07-18",
