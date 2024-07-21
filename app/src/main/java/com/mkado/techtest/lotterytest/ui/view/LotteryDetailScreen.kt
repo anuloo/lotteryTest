@@ -14,13 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mkado.techtest.lotterytest.domain.model.Lottery
 import com.mkado.techtest.lotterytest.ui.theme.LotteryTestTheme
-import com.mkado.techtest.lotterytest.ui.view.component.LotteryItem
 import com.mkado.techtest.lotterytest.ui.view.component.LotteryItemWithBalls
 
 @Composable
 fun LotteryDetailScreen(
     lottery: Lottery?,
-    onBackClicked:()->Unit
 ) {
     Column(
         modifier = Modifier
@@ -56,6 +54,6 @@ fun LotteryDetailScreenPreview(){
                 "52",
                 4000000
             )
-        ){}
+        )
     }
 }

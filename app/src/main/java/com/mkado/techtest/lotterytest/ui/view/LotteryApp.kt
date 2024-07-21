@@ -64,8 +64,7 @@ fun LotteryApp() {
                     viewModel.getLotteryById(it)
                     val lottery by viewModel.lotteryDetail.collectAsState()
                     LotteryDetailScreen(
-                        lottery = lottery,
-                        onBackClicked = { navController.popBackStack() }
+                        lottery = lottery
                     )
                 }
             }

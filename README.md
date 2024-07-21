@@ -1,35 +1,46 @@
-# lotteryTest
-A Kotlin app using MVVM and Jetpack Compose to display lottery draws from a RESTful API. Features include JSON parsing, detailed draw views, random lottery tickets, navigation, offline caching, and enhanced UI/UX with animations and custom components.
+# Lottery App
 
+## Overview
 
-# 🎲 Lottery Draws App
+The Lottery App is a modern Android application built using Jetpack Compose, Hilt for dependency injection, and Kotlin Coroutines. The app provides a user-friendly interface for viewing lottery draws, checking results, and generating QR codes for lottery tickets.
 
-Welcome to the **Lottery Draws App**! This project is a test for a company utilizing the **MVVM framework** and **Kotlin Jetpack Compose** to load and display a RESTful API within the app. Dive into a world of lottery draws with a sleek interface and interactive features!
+## Features
 
-## 🚀 Features
+- **Lottery List Screen**: Displays a list of recent lottery draws with their details.
+- **Lottery Detail Screen**: Shows detailed information about a specific lottery draw, including numbers and prize details.
+- **Check Draw Screen**: Allows users to generate lottery numbers, view them in a formatted ticket view, and check results.
 
-### 1.3 Essential Tasks
+## Technologies Used
 
-1. **Parse JSON Data**: Seamlessly load and parse the provided JSON data within the app.
-2. **Display Lottery Draws**: A simple yet elegant view listing all lottery draws along with their respective draw dates.
-3. **Unit and Integration Testing**: I ve done just 1 due to i had issues with the HiltTest
+- **Jetpack Compose**: Utilized for building a reactive and modern UI in a declarative manner. Compose simplifies the UI development process and integrates well with the MVVM architecture.
+- **Hilt**: Used for dependency injection, providing a scalable and manageable way to handle dependencies across the application.
+- **Kotlin Coroutines**: Employed for managing asynchronous operations and background tasks efficiently, ensuring smooth and responsive UI interactions.
+- **Ktor**: Used for handling network requests. If included in the project, it would be for making API calls to fetch lottery data.
 
-### 1.4 Additional Tasks
+## Architecture
 
-1. **Detail View for Each Draw**: Dive deeper into each lottery draw with a detailed view showcasing all numbers and the bonus ball.
-2. **Lottery Tickets**: This is added just later stage see screenshot
-3. **Navigation**: Smooth and intuitive navigation from the main list view to the detailed views of each draw.
-4. **Additional Tests**: Ive added some unit test not too many unfortunatelly.
-5. **Local Storage**: Cache the lottery draws locally to enable offline viewing.
-6. **UI/UX Enhancements**: Boost the visual appeal and user experience with loading animations and custom UI components.
+The application follows the **MVVM (Model-View-ViewModel)** architecture pattern:
 
-## 🛠 Technologies Used
+- **Model**: Represents the data layer. It includes domain models and use cases that interact with data sources.
+- **View**: Composed of Jetpack Compose UI components. It observes state changes from the ViewModel and renders the UI accordingly.
+- **ViewModel**: Manages UI-related data and business logic. It fetches data from use cases and provides it to the View.
 
-- **Kotlin**: The primary programming language.
-- **Jetpack Compose**: For creating a modern, responsive UI.
-- **MVVM Framework**: For a clean and efficient architecture.
-- **RESTful API**: For fetching and displaying the latest lottery draws. again i actually done a mock api server to imitate the proper behavior of the restful API
-- **Local Storage**: For caching data and offline access. I ve used room database so it has a Flow<List> this way we can seamlessly update the UI if the state has changed
+## Key Components
+
+- **Screens**: Implemented as Composables to manage different views of the application, such as the Lottery List, Lottery Detail, and Check Draw screens.
+- **ViewModels**: Handle business logic and state management. They interact with use cases and update the UI based on user interactions or data changes.
+- **Use Cases**: Encapsulate business logic and data manipulation. They are called by ViewModels to perform specific operations like fetching lottery data or generating QR codes.
+- **Components**: Reusable UI elements like BallItem, LotteryItem, and TicketView enhance modularity and maintainability.
+
+## Improvements
+
+1. **Localization**: The app currently lacks localization support. Implementing string resources for multiple languages would make the app more accessible to a global audience.
+2. **Error Handling**: Enhancing error handling and user feedback could improve the app’s resilience and user experience.
+3. **Testing**: Adding unit and UI tests would help ensure the stability and correctness of the app.
+
+## Conclusion
+
+This Lottery App showcases a modern approach to Android development using Jetpack Compose for UI, Hilt for dependency injection, and Kotlin Coroutines for asynchronous tasks. It demonstrates effective use of MVVM architecture and Compose's powerful features for creating a responsive and user-friendly application.
 
 ## 🧪 Testing
 
