@@ -36,7 +36,7 @@ The application follows the **MVVM (Model-View-ViewModel)** architecture pattern
 
 1. **Localization**: The app currently lacks localization support. Implementing string resources for multiple languages would make the app more accessible to a global audience.
 2. **Error Handling**: Enhancing error handling and user feedback could improve the app’s resilience and user experience.
-3. **Testing**: Adding unit and UI tests would help ensure the stability and correctness of the app.
+3. **UI Testing**: While unit tests for ViewModels, use cases, and DAOs have been completed, UI testing remains to ensure the end-to-end functionality and user interface behavior.
 
 ## Conclusion
 
