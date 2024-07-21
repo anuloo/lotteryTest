@@ -27,7 +27,7 @@ class GetLotteryDataUseCaseTest {
     }
 
     @Test
-    fun testInvokeReturnsDataFromRepository() = runTest {
+    fun `test invoke returns data from repository`() = runTest {
         val lotteryData = listOf(
             Lottery(
                 id = "draw-88",
@@ -51,7 +51,7 @@ class GetLotteryDataUseCaseTest {
     }
 
     @Test
-    fun testRefreshFetchesAndReturnsDataFromRepository() = runTest {
+    fun `test refresh fetches and returns data from repository`() = runTest {
         val lotteryData = listOf(
             Lottery(
                 id = "draw-88",
