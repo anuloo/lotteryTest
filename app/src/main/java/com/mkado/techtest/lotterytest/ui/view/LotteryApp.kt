@@ -3,6 +3,7 @@ package com.mkado.techtest.lotterytest.ui.view
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -14,13 +15,13 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mkado.techtest.lotterytest.ui.view.component.BottomNavigationBar
 import com.mkado.techtest.lotterytest.ui.view.viewmodel.CheckDrawViewModel
-import com.mkado.techtest.lotterytest.ui.view.viewmodel.LotteryViewModel
+import com.mkado.techtest.lotterytest.ui.view.viewmodel.LotteryDetailViewModel
+import com.mkado.techtest.lotterytest.ui.view.viewmodel.LotteryListViewModel
+import com.mkado.techtest.lotterytest.ui.view.viewmodel.QRCodeGeneratorViewModel
 
 @Composable
 fun LotteryApp() {
     val navController = rememberNavController()
-    val viewModel: LotteryViewModel = hiltViewModel()
-    val state by viewModel.state.collectAsState()
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
     ) { paddingValues ->
@@ -30,8 +31,10 @@ fun LotteryApp() {
             Modifier.padding(paddingValues)
         ) {
             composable("lotteryList") {
+                val viewModel: LotteryListViewModel = hiltViewModel()
+                val state by viewModel.state.collectAsState()
                 LotteryListScreen(
-                    lotteryData = (state as? LotteryUIState.Loaded)?.lotteryData ?: emptyList(),
+                    state = state,
                     onLotteryClicked = { lotteryId ->
                         navController.navigate("lotteryDetail/$lotteryId")
                     },
@@ -40,16 +43,26 @@ fun LotteryApp() {
             }
             composable("checkDraw") {
                 val checkDrawViewModel: CheckDrawViewModel = hiltViewModel()
+                val qrCodeGeneratorViewModel: QRCodeGeneratorViewModel = hiltViewModel()
                 val checkDrawState by checkDrawViewModel.state.collectAsState()
-                val qrCodeBitmap by checkDrawViewModel.qrCodeBitmap.collectAsState()
+                val qrCodeState by qrCodeGeneratorViewModel.state.collectAsState()
 
-                if (checkDrawState is CheckDrawUIState.Loading) {
+                // Trigger fetching lottery data
+                LaunchedEffect(Unit) {
                     checkDrawViewModel.generateNumbers()
                 }
 
+                // Trigger QR code generation when lottery data is successfully fetched
+                LaunchedEffect(checkDrawState) {
+                    if (checkDrawState is CheckDrawUIState.Loaded) {
+                        val lotteryData = (checkDrawState as CheckDrawUIState.Loaded).numbers
+                        qrCodeGeneratorViewModel.generateQRCode(lotteryData.joinToString())
+                    }
+                }
+
                 CheckDrawScreen(
-                    state = checkDrawState,
-                    qrCodeBitmap = qrCodeBitmap,
+                    checkDrawState = checkDrawState,
+                    qrCodeState = qrCodeState,
                     onClick = { checkDrawViewModel.generateNumbers() },
                     onBackClick = { navController.navigate("lotteryList") }
                 )
@@ -59,12 +72,13 @@ fun LotteryApp() {
                 "lotteryDetail/{lotteryId}",
                 arguments = listOf(navArgument("lotteryId") { type = NavType.StringType })
             ) { backStackEntry ->
+                val viewModel: LotteryDetailViewModel = hiltViewModel()
+                val state by viewModel.state.collectAsState()
                 val lotteryId = backStackEntry.arguments?.getString("lotteryId")
                 lotteryId?.let {
                     viewModel.getLotteryById(it)
-                    val lottery by viewModel.lotteryDetail.collectAsState()
                     LotteryDetailScreen(
-                        lottery = lottery
+                        lottery = state
                     )
                 }
             }

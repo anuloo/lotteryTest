@@ -1,59 +1,62 @@
 package com.mkado.techtest.lotterytest.ui.view
 
 import com.mkado.techtest.lotterytest.domain.model.Lottery
-import com.mkado.techtest.lotterytest.domain.uscase.LotteryByIdUseCase
 import com.mkado.techtest.lotterytest.domain.uscase.LotteryUsecase
-import com.mkado.techtest.lotterytest.ui.view.viewmodel.LotteryViewModel
+import com.mkado.techtest.lotterytest.common.DataResult
+import com.mkado.techtest.lotterytest.ui.view.viewmodel.LotteryListViewModel
 import io.mockk.*
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.*
 import org.junit.*
 
 
-class LotteryViewModelShould {
+class LotteryListViewModelShould {
 
-    private lateinit var sut: LotteryViewModel
+    private lateinit var sut: LotteryListViewModel
     private val mockGetLotteryDataUseCase: LotteryUsecase = mockk()
-    private val mockGetLotteryByIdUseCase: LotteryByIdUseCase = mockk()
     private val testDispatcher = StandardTestDispatcher()
     private val testScope = TestScope(testDispatcher)
-    private val lottery = Lottery(
-        id = "draw-88",
-        drawDate = "2024-05-15",
-        number1 = "10",
-        number2 = "23",
-        number3 = "36",
-        number4 = "47",
-        number5 = "21",
-        number6 = "52",
-        bonusBall = "39",
-        topPrize = 7000000
-    )
     private  val lotteryList = listOf(
-        lottery
+        Lottery(
+            id = "draw-88",
+            drawDate = "2024-05-15",
+            number1 = "10",
+            number2 = "23",
+            number3 = "36",
+            number4 = "47",
+            number5 = "21",
+            number6 = "52",
+            bonusBall = "39",
+            topPrize = 7000000
+        )
     )
+    private val error =  DataResult.Error("error",-1, null)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         MockKAnnotations.init(this, relaxUnitFun = true)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @After
     fun teardown() {
         Dispatchers.resetMain()
         unmockkAll()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun emitLoadingState_and_then_loadedState_when_fetchLotteryData_succeeds() = testScope.runTest {
         // Given
 
         coEvery { mockGetLotteryDataUseCase.invoke() } returns flowOf(lotteryList)
-        sut = LotteryViewModel(mockGetLotteryDataUseCase, mockGetLotteryByIdUseCase)
+        sut = LotteryListViewModel(mockGetLotteryDataUseCase)
 
         // Collect states to verify transitions
         val states = mutableListOf<LotteryUIState>()
@@ -80,13 +83,14 @@ class LotteryViewModelShould {
 
         job.cancel()  // Clean up
     }
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun emitLoadingState_and_then_loadedState_when_refreshData_succeeds() = testScope.runTest {
         // Given
 
-        coEvery { mockGetLotteryDataUseCase.refresh() } returns lotteryList
+        coEvery { mockGetLotteryDataUseCase.refresh() } returns DataResult.Success(lotteryList)
         every { mockGetLotteryDataUseCase.invoke() } returns flowOf(lotteryList)
-        sut = LotteryViewModel(mockGetLotteryDataUseCase, mockGetLotteryByIdUseCase)
+        sut = LotteryListViewModel(mockGetLotteryDataUseCase)
 
         // Collect states to verify transitions
         val states = mutableListOf<LotteryUIState>()
@@ -106,12 +110,13 @@ class LotteryViewModelShould {
     }
 
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun emitErrorState_when_refreshData_fails() = testScope.runTest {
         // Given
-        coEvery { mockGetLotteryDataUseCase.refresh() } throws Exception("Refresh failed")
+        coEvery { mockGetLotteryDataUseCase.refresh() } returns error
         every { mockGetLotteryDataUseCase.invoke() } returns flowOf(lotteryList)
-        sut = LotteryViewModel(mockGetLotteryDataUseCase, mockGetLotteryByIdUseCase)
+        sut = LotteryListViewModel(mockGetLotteryDataUseCase)
 
         // Collect states to verify transitions
         val states = mutableListOf<LotteryUIState>()
@@ -131,19 +136,4 @@ class LotteryViewModelShould {
     }
 
 
-    @Test
-    fun emitLotteryDetail_when_getLotteryById_succeeds() = testScope.runTest {
-        // Given
-        coEvery { mockGetLotteryByIdUseCase.getLotteryById("draw-88") } returns flowOf(lottery)
-        every { mockGetLotteryDataUseCase.invoke() } returns flowOf(lotteryList)
-
-        sut = LotteryViewModel(mockGetLotteryDataUseCase, mockGetLotteryByIdUseCase)
-
-        // When
-        sut.getLotteryById("draw-88")
-        advanceUntilIdle()
-
-        // Then
-        assertEquals(lottery, sut.lotteryDetail.value)
-    }
 }

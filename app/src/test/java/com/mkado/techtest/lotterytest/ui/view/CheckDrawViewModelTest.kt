@@ -11,6 +11,7 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
@@ -27,7 +28,6 @@ class CheckDrawViewModelShould {
 
     private lateinit var sut: CheckDrawViewModel
     private val mockDrawUseCase: DrawUseCase = mockk()
-    private val mockQRCodeUseCase: QRCodeUseCase = mockk()
     private val testDispatcher = StandardTestDispatcher()
     private val testScope = TestScope(testDispatcher)
     private  val mockBitmap = mockk<Bitmap>()
@@ -46,17 +46,14 @@ class CheckDrawViewModelShould {
         unmockkAll()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun emitLoadingState_when_generateNumbers_is_called() = testScope.runTest {
         // Mock DrawUseCase to return dummy data
         coEvery { mockDrawUseCase.execute() } returns listOf(1, 2, 3, 4, 5, 6)
 
-        // Mock QRCodeUseCase to return dummy Bitmap
-        every { Bitmap.createBitmap(any(), any(), any()) } returns mockBitmap
-        coEvery { mockQRCodeUseCase.execute(any()) } returns mockBitmap
-
         // Given
-        sut = CheckDrawViewModel(mockDrawUseCase, mockQRCodeUseCase)
+        sut = CheckDrawViewModel(mockDrawUseCase)
 
         // Collect states to verify transitions
         val states = mutableListOf<CheckDrawUIState>()
@@ -90,10 +87,8 @@ class CheckDrawViewModelShould {
 
         coEvery { mockDrawUseCase.execute() } returns listOf(1, 2, 3, 4, 5, 6)
 
-        // Mock QRCodeUseCase to return dummy Bitmap
-        coEvery { mockQRCodeUseCase.execute(any()) } returns mockBitmap
         // Given
-        sut = CheckDrawViewModel(mockDrawUseCase, mockQRCodeUseCase)
+        sut = CheckDrawViewModel(mockDrawUseCase)
 
         // Perform actions to trigger the Bitmap creation
         sut.generateNumbers()
@@ -106,7 +101,7 @@ class CheckDrawViewModelShould {
         coEvery { mockDrawUseCase.execute() } throws Exception("Failed to generate numbers")
 
         // Given
-        sut = CheckDrawViewModel(mockDrawUseCase, mockQRCodeUseCase)
+        sut = CheckDrawViewModel(mockDrawUseCase)
 
         // When
         sut.generateNumbers()
@@ -122,7 +117,7 @@ class CheckDrawViewModelShould {
         coEvery { mockDrawUseCase.execute() } throws Exception("Failed to generate numbers")
 
         // Given
-        sut = CheckDrawViewModel(mockDrawUseCase, mockQRCodeUseCase)
+        sut = CheckDrawViewModel(mockDrawUseCase,)
 
         // When
         sut.generateNumbers()

@@ -1,6 +1,7 @@
 package com.mkado.techtest.lotterytest.domain.usecase
 
 import com.mkado.techtest.lotterytest.domain.uscase.GetLotteryDataUseCase
+import com.mkado.techtest.lotterytest.common.DataResult
 import com.mkado.techtest.lotterytest.domain.uscase.LotteryUsecase
 import io.mockk.coEvery
 import io.mockk.every
@@ -11,7 +12,6 @@ import com.mkado.techtest.lotterytest.domain.model.Lottery
 import com.mkado.techtest.lotterytest.domain.repository.LotteryRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -67,11 +67,11 @@ class GetLotteryDataUseCaseTest {
             )
         )
 
-        coEvery { lotteryRepository.refreshLotteryData() }.returns(Unit)
+        coEvery { lotteryRepository.refreshLotteryData() }.returns(DataResult.Success(Unit))
         every {lotteryRepository.getLotteryData()  }returns (flowOf(lotteryData))
 
         val result = sut.refresh()
 
-        assert(result == lotteryData)
+        assert(result == DataResult.Success(lotteryData))
     }
 }

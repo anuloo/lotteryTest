@@ -19,38 +19,37 @@ import com.mkado.techtest.lotterytest.ui.view.component.TicketView
 
 @Composable
 fun CheckDrawScreen(
-    state: CheckDrawUIState,
-    qrCodeBitmap: Bitmap?,
+    checkDrawState: CheckDrawUIState,
+    qrCodeState: QRCodeGenerationState,
     onClick: () -> Unit,
-    onBackClick: () -> Unit,
+    onBackClick: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Text(
             text = "Lottery Draw",
             style = typography.titleLarge,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().
-            padding(vertical = 10.dp)
+            modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)
         )
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            when (state) {
+            when (checkDrawState) {
                 is CheckDrawUIState.Loading -> {
                     CircularProgressIndicator()
                 }
 
                 is CheckDrawUIState.Loaded -> {
-                    val numbers = (state as CheckDrawUIState.Loaded).numbers
+                    val numbers = checkDrawState.numbers
                     if (numbers.size >= 6) {
                         TicketView(
                             title = "LOTTO",
                             drawDate = "2024-07-18",
                             drawId = "draw-123",
                             numbers = numbers,
-                            qrCodeBitmap = qrCodeBitmap
+                            qrCodeBitmap = (qrCodeState as? QRCodeGenerationState.Loaded)?.bitmap
                         )
                     } else {
                         Text("Not enough numbers generated")
@@ -58,7 +57,7 @@ fun CheckDrawScreen(
                 }
 
                 is CheckDrawUIState.Error -> {
-                    val message = (state as CheckDrawUIState.Error).message
+                    val message = checkDrawState.message
                     Text("Error: $message")
                 }
             }
@@ -66,8 +65,13 @@ fun CheckDrawScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
         }
-        Row(modifier = Modifier.fillMaxWidth().padding(bottom = 20.dp).align(alignment = Alignment.BottomCenter),
-            horizontalArrangement = Arrangement.Absolute.SpaceAround){
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 20.dp)
+                .align(alignment = Alignment.BottomCenter),
+            horizontalArrangement = Arrangement.Absolute.SpaceAround
+        ) {
             Button(onClick = onBackClick) {
                 Text("Back to List")
             }
@@ -75,7 +79,6 @@ fun CheckDrawScreen(
                 Text("Draw Lottery")
             }
         }
-
     }
 }
 
@@ -83,13 +86,16 @@ fun CheckDrawScreen(
 @Composable
 fun CheckDrawScreenPreview() {
     CheckDrawScreen(
-        state = CheckDrawUIState.Loaded(
-            listOf(1,2,3,4,5,6,66)
+        checkDrawState = CheckDrawUIState.Loaded(
+            numbers = listOf(1, 2, 3, 4, 5, 6, 66)
         ),
-        qrCodeBitmap = null,
+        qrCodeState = QRCodeGenerationState.Loaded(
+            bitmap = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888) // Example bitmap
+        ),
         onClick = {},
-        {}
+        onBackClick = {}
     )
 }
+
 
 

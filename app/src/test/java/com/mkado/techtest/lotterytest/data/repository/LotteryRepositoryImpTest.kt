@@ -1,6 +1,7 @@
 package com.mkado.techtest.lotterytest.data.repository
 
 import android.graphics.Bitmap
+import com.mkado.techtest.lotterytest.common.DataResult
 import com.mkado.techtest.lotterytest.data.local.room.LotteryDao
 import com.mkado.techtest.lotterytest.data.local.room.LotteryEntity
 import com.mkado.techtest.lotterytest.data.mappers.toDomain
@@ -80,7 +81,7 @@ class LotteryRepositoryImpTest {
         val lotteryEntities = lotteryResponses.map { it.toEntity() }
 
         // Mock the behavior of fetchLotteryData() to return the lotteryResponses list
-        coEvery { lotteryService.fetchLotteryData() } returns lotteryResponses
+        coEvery { lotteryService.fetchLotteryData() } returns DataResult.Success(lotteryResponses)
 
         // Call the refresh method on the repository
         sut.refreshLotteryData()

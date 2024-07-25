@@ -5,9 +5,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
+import com.mkado.techtest.lotterytest.common.DataResult
 import com.mkado.techtest.lotterytest.data.local.room.LotteryDao
 import com.mkado.techtest.lotterytest.data.mappers.toDomain
 import com.mkado.techtest.lotterytest.data.mappers.toEntity
+import com.mkado.techtest.lotterytest.data.remote.network.NetworkError
 import com.mkado.techtest.lotterytest.data.service.LotteryService
 import com.mkado.techtest.lotterytest.domain.model.Lottery
 import com.mkado.techtest.lotterytest.domain.repository.LotteryRepository
@@ -31,10 +33,39 @@ class LotteryRepositoryImp @Inject constructor(
         return dao.getLotteryById(lotteryId).map { it?.toDomain() }
     }
 
-    override suspend fun refreshLotteryData() {
-        val data = service.fetchLotteryData()
-        dao.insertLotteries(data.map { it.toEntity() })
+    override suspend fun refreshLotteryData(): DataResult<Unit, NetworkError> {
+        return when (val result = service.fetchLotteryData()) {
+            is DataResult.Success -> {
+                // Unwrap the data from the service result
+                val data = result.data
+
+                try {
+                    // Insert the fetched data into the DAO
+                    dao.insertLotteries(data.map { it.toEntity() })
+
+                    // Return success with no additional data
+                    DataResult.Success(Unit)
+                } catch (e: Exception) {
+                    // Handle any other exceptions during DAO operation
+                    DataResult.Error(
+                        message = e.message,
+                        code = -1,
+                        error = NetworkError.UnknownError(e.message, e)
+                    )
+                }
+            }
+            is DataResult.Error -> {
+                // Forward the error from the service to the repository
+                DataResult.Error(
+                    message = result.message,
+                    code = result.code,
+                    error = result.error
+                )
+            }
+        }
     }
+
+
 
     override fun generateRandomNumbers(): List<Int> {
         return (1..50).shuffled().take(6)
@@ -56,4 +87,5 @@ class LotteryRepositoryImp @Inject constructor(
             null
         }
     }
+
 }
