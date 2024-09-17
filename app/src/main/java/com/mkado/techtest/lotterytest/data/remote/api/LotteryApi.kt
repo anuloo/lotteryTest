@@ -17,7 +17,7 @@ interface LotteryApiService {
 class LotteryApi @Inject constructor(private val client: HttpClient) : LotteryApiService {
     override suspend fun getLotteries(): DataResult<List<LotteryResponse>, NetworkError> {
         return try {
-            val response: LotteryData = client.get(BuildConfig.LOTTERY_API_ROOT_URL + "lotto-result-api").body()
+            val response: LotteryData = client.get(BuildConfig.LOTTERY_API_ROOT_URL + "db").body()
             DataResult.Success(response.draws)
         } catch (e: io.ktor.serialization.ContentConvertException) {
             DataResult.Error(message = e.message, code = -1, error = NetworkError.SerializationError(e.message, e))

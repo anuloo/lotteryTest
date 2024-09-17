@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LotteryData(
-    val draws: List<LotteryResponse>
+  val draws: List<LotteryResponse>
 )
 
 @Serializable
