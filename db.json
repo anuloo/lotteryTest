@@ -1,0 +1,38 @@
+[
+{
+    "bonus-ball":"6",
+    "drawDate":"20/10/25",
+   "id":"1",
+    "number1":"20",
+    "number2":"15",
+    "number3":"34",
+    "number4":"46",
+    "number5":"32",
+   "number6":"64",
+    "topPrize":80000
+},
+{
+    "bonus-ball":"34",
+    "drawDate":"20/10/25",
+   "id":"2",
+    "number1":"10",
+    "number2":"15",
+    "number3":"34",
+    "number4":"56",
+    "number5":"22",
+   "number6":"44",
+    "topPrize":120000
+},
+{
+    "bonus-ball":"45",
+    "drawDate":"20/10/25",
+   "id":"3",
+    "number1":"30",
+    "number2":"16",
+    "number3":"34",
+    "number4":"36",
+    "number5":"12",
+   "number6":"14",
+    "topPrize":140000
+}
+]
